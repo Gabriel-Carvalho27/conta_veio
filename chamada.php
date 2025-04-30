@@ -2,7 +2,6 @@
 session_start();
 require_once "conexao.php";
 
-
 if (!isset($_SESSION["logado"])) {
     header("Location: index.php");
     exit;
@@ -83,9 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
 
         .top-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Centraliza os botões */
             align-items: center;
-            padding: 10px 545px;
+            padding: 10px 20px;
             background-color: var(--box-background-color);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -96,10 +95,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
             border-radius: 5px;
             background-color: var(--input-background-color);
             color: var(--text-color);
+            flex-grow: 1;
+            max-width: 300px;
         }
 
         .top-bar a, .top-bar button {
             margin-left: 10px;
+            margin-top: 10px;
             background-color: var(--button-background-color);
             color: #fff;
             border: none;
@@ -108,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
             cursor: pointer;
             text-decoration: none;
             transition: background-color 0.3s;
+            flex-shrink: 0;
         }
 
         .top-bar a:hover, .top-bar button:hover {
@@ -159,15 +162,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
             text-align: center;
         }
 
-        .idoso button {
+        .idoso button, .idoso a.editar {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 1.5em;
             transition: transform 0.2s;
+            margin-left: 8px;
         }
 
-        .idoso button:hover {
+        .idoso button:hover, .idoso a.editar:hover {
             transform: scale(1.2);
         }
 
@@ -177,6 +181,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
 
         .idoso button.ausente i {
             color: #dc3545;
+        }
+
+        .idoso a.editar i {
+            color: #ffc107;
+        }
+
+        .idoso a.editar:hover i {
+            color: #e0a800;
         }
     </style>
 </head>
@@ -211,6 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
             echo "<div>";
             echo "<button class='presente' onclick='registrarChamada($id, \"Presente\")' title='Marcar como Presente'><i class='fas fa-check-circle'></i></button>";
             echo "<button class='ausente' onclick='registrarChamada($id, \"Ausente\")' title='Marcar como Ausente'><i class='fas fa-times-circle'></i></button>";
+            echo "<a href='editar_idoso.php?id=$id' class='editar' title='Editar Cadastro'><i class='fas fa-edit'></i></a>";
             echo "</div>";
             echo "</div>";
         }
